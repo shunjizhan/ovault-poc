@@ -1,9 +1,9 @@
+import { EndpointId } from '@layerzerolabs/lz-definitions';
 import assert from 'assert';
 
 import { type DeployFunction } from 'hardhat-deploy/types';
 
-// TODO declare your contract name here
-const contractName = 'MyOApp';
+const contractName = 'OVault';
 
 const deploy: DeployFunction = async hre => {
   const { getNamedAccounts, deployments } = hre;
@@ -34,11 +34,14 @@ const deploy: DeployFunction = async hre => {
   // }
   const endpointV2Deployment = await hre.deployments.get('EndpointV2');
 
+  // vault is on op, operator is on sepolia, so operatorEid is hardcoded to sepolia
+  const operatorEid = EndpointId.SEPOLIA_V2_TESTNET;
   const { address } = await deploy(contractName, {
     from: deployer,
     args: [
       endpointV2Deployment.address, // LayerZero's EndpointV2 address
       deployer, // owner
+      operatorEid,
     ],
     log: true,
     skipIfAlreadyDeployed: false,

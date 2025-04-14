@@ -1,7 +1,7 @@
 // tasks/sendMessage.ts
 
-import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { task } from 'hardhat/config';
 
 import { Options } from '@layerzerolabs/lz-v2-utilities';
 
@@ -44,7 +44,6 @@ export default task('sendMessage', 'Send a message to the destination chain')
     const receipt = await tx.wait();
     console.log('🎉 Message sent! Transaction hash:', receipt.transactionHash);
     console.log(
-      'Check message status on LayerZero Scan: https://testnet.layerzeroscan.com/tx/' +
-      receipt.transactionHash,
+      'Check message status on LayerZero Scan: https://testnet.layerzeroscan.com/tx/' + receipt.transactionHash
     );
   });
