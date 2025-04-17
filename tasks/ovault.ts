@@ -5,7 +5,7 @@ import { Options } from '@layerzerolabs/lz-v2-utilities';
 import { task } from 'hardhat/config';
 import inquirer from 'inquirer';
 
-import { OOperator__factory, OVault__factory } from '../typechain-types';
+// import { OVault__factory } from '../typechain-types';
 
 // Using the same task-based approach as the existing ovault.ts
 task('ovault', 'Interactive CLI for OVault contract (deposit or withdraw)')
@@ -16,7 +16,7 @@ task('ovault', 'Interactive CLI for OVault contract (deposit or withdraw)')
           type: 'list',
           name: 'action',
           message: 'Select action:',
-          choices: ['deposit', 'withdraw', 'exec deposit', 'exec withdraw'],
+          choices: ['deposit', 'withdraw'],
         },
       ]);
 
@@ -46,8 +46,7 @@ task('ovault', 'Interactive CLI for OVault contract (deposit or withdraw)')
       console.log(`OVault contract address: ${ovaultAddress}`);
 
       // Connect to the OVault contract with proper typing using OVault__factory
-      const ovault = OVault__factory.connect(ovaultAddress, signer);
-      const ooperator = OOperator__factory.connect(ovaultAddress, signer);    // FIXME: need to connect to sepolia
+      const ovault = await hre.ethers.getContractAt('OVault', ovaultAddress, signer);
 
       // Create options for the message
       const options = Options.newOptions().addExecutorLzReceiveOption(200000, 0).toHex();
@@ -80,12 +79,8 @@ task('ovault', 'Interactive CLI for OVault contract (deposit or withdraw)')
       let tx;
       if (action === 'deposit') {
         tx = await ovault.deposit(amount, options, { value: nativeFee });
-      } else if (action === 'withdraw') {
+      } else {
         tx = await ovault.requestWithdraw(amount, options, { value: nativeFee });
-      } else if (action === 'exec deposit') {
-        tx = await ovault.executeDeposit(amount, options, { value: nativeFee });
-      } else if (action === 'exec withdraw') {
-        tx = await ovault.executeWithdraw(amount, options, { value: nativeFee });
       }
 
       console.log(`Transaction sent: ${tx.hash}`);

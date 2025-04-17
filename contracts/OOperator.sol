@@ -7,7 +7,7 @@ import { OApp, MessagingFee, Origin } from "@layerzerolabs/oapp-evm/contracts/oa
 import { MessagingReceipt } from "@layerzerolabs/oapp-evm/contracts/oapp/OAppSender.sol";
 import { OAppOptionsType3 } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
 
-contract OOperator is OApp, OAppOptionsType3 {
+contract OOperator is OApp, OAppOptionsType3, ILayerZeroComposer {
     uint256 public pendingDeposits;
     uint256 public pendingWithdrawals;
 

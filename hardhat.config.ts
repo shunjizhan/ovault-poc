@@ -18,7 +18,9 @@ import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
 
 import './tasks/ovault';
+import './tasks/ovaultv2';
 import './tasks/send-msg';
+import './tasks/send-ousdt';
 
 // Set your preferred authentication method
 //
